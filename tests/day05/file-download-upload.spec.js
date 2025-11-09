@@ -11,16 +11,21 @@ test("File downloads", async ({ page }) => {
 
   let download = await promisedDownloadEvent;
 
-  let downloadPath = path.join(__dirname, "./dowloads", download.suggestedFilename());
+  let downloadPath = path.join(__dirname, "./downloads", download.suggestedFilename());
   await download.saveAs(downloadPath);
 
   expect(fs.existsSync(downloadPath)).toBeTruthy();
 });
 
-test("File uploads", () => {
+test("File uploads", async ({ page }) => {
 
+  await page.goto("https://practice.cydeo.com/upload");
+  let filePath = path.join(__dirname, "./uploads/", "TestUpload.txt");
+  // await page.waitForTimeout(2000);
+  await page.setInputFiles("#file-upload", filePath);
+  // await page.waitForTimeout(2000);
+  await page.click("#file-submit");
+  // await page.waitForTimeout(2000);
 
-
-
-    
+  await expect(page.getByText("File Uploaded!")).toBeVisible();
 });
