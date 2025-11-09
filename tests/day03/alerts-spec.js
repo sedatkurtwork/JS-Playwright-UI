@@ -45,4 +45,10 @@ test.describe("JS Allerts @testAlerts", () => {
     await clickForJSPromptButton.click();
     // await page.waitForTimeout(2000);
   });
+
+  test("test", ({ page })=>{
+
+  });
+
+
 });
