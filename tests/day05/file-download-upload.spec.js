@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import path from 'path';
-import fs from 'fs';
+import path from "path";
+import fs from "fs";
 
 test("File downloads", async ({ page }) => {
   // create event listener for download
@@ -11,14 +11,17 @@ test("File downloads", async ({ page }) => {
 
   let download = await promisedDownloadEvent;
 
-  let downloadPath = path.join(__dirname, "./downloads", download.suggestedFilename());
+  let downloadPath = path.join(
+    __dirname,
+    "./downloads",
+    download.suggestedFilename()
+  );
   await download.saveAs(downloadPath);
 
   expect(fs.existsSync(downloadPath)).toBeTruthy();
 });
 
 test("File uploads", async ({ page }) => {
-
   await page.goto("https://practice.cydeo.com/upload");
   let filePath = path.join(__dirname, "./uploads/", "TestUpload.txt");
   // await page.waitForTimeout(2000);
