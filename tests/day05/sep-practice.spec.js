@@ -20,7 +20,11 @@ test("SEP Practice @sep", async ({ page }) => {
   await page.waitForTimeout(6000);
 
   // 3. submit payment plan
-  CommonUI.completeSubmitPaymentStep(page, "424242424242", "10/30", "123", "15616");
+  CommonUI.completeSubmitPaymentStep(page,"4242424242424242",
+    "10/30",
+    "123",
+    "15616"
+  );
   await page.waitForTimeout(10000);
 });
 
