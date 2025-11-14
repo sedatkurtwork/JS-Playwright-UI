@@ -20,8 +20,8 @@ test("SEP Practice @sep", async ({ page }) => {
   await page.waitForTimeout(6000);
 
   // 3. submit payment plan
-
-
+  CommonUI.completeSubmitPaymentStep(page, "424242424242", "10/30", "123", "15616");
+  await page.waitForTimeout(10000);
 });
 
 class CommonUI {
@@ -90,5 +90,33 @@ class CommonUI {
       "//button[@class='next-button' and text()='Next']"
     );
     await nextButton2.click();
+  }
+
+  static async completeSubmitPaymentStep(page, cardNumber, expirationDate, securityCode, zipCode){
+    let paymentFrame = page.frameLocator(
+      "//iframe[@title='Secure payment input frame']"
+    );
+    let cardNumberInput = paymentFrame.locator("#Field-numberInput");
+    page.waitForTimeout(1000);
+    await cardNumberInput.fill(cardNumber);
+
+    let expirationDateInput = paymentFrame.getByPlaceholder("MM / YY");
+    await expirationDateInput.fill(expirationDate);
+
+    let securityCodeInput = paymentFrame.locator("#Field-cvcInput");
+    await securityCodeInput.fill(securityCode);
+
+    // let countryDrowpown = paymentFrame.locator("#Field-countryInput");
+    // await countryDrowpown.selectOption({ label: "Kazakhstan" });
+    // page.waitForTimeout(1000);
+
+    let zipCodeInput = paymentFrame.locator("#Field-postalCodeInput");
+    await zipCodeInput.fill(zipCode);
+
+    let termsAndConditionsCheckbox = page.locator("#defaultCheck2");
+    await termsAndConditionsCheckbox.check();
+
+    let payButton = page.getByText("Pay", { exact: true });
+    await payButton.click();
   }
 }
