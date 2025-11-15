@@ -7,15 +7,15 @@
 import { test, expect } from "@playwright/test";
 import { lchown } from "fs";
 import { off } from "process";
-   
+
 test.describe("Array of elements practice", () => {
   // create a beforeEach to navigate to https://practice.cydeo.com/
   let elements;
 
   test.beforeEach(async ({ page }) => {
-    elements = await page.locator("//li[@class='list-group-item']").all();
     await page.goto("https://practice.cydeo.com/");
     await expect(page).toHaveTitle("Practice");
+    elements = await page.locator("//ul[@class='list-group']/li/a").all();
   });
 
   test("verify that there are eactly 50 link element within the <ul> tag.", async ({
